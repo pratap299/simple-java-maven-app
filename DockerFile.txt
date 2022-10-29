@@ -1,0 +1,38 @@
+FROM ubuntu:18.04
+
+MAINTAINER pratapdevops299@gmail.com
+
+   LABEL Trainer="pratap Rampathoti"
+LABEL Cource="DevOps"
+
+USER root 
+RUN apt-get update -y
+RUN apt-get install wget -y
+RUN apt-get install curl -y
+RUN useradd -s /bin/bash -d /home/pratap/ -m -G sudo pratap
+RUN mkdir -p /home/pratap/tomcat
+
+WORKDIR /home/pratap/tomcat
+
+ADD https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.82/bin/apache-tomcat-8.5.82.tar.gz /home/pratap/tomcat
+
+RUN tar xzvfz apache*.tar.gz
+RUN mv apache-tomcat-8.5.82/* /home/pratap/tomcat
+RUN apt-get -y install openjdk-8-jdk
+RUN java -version
+RUN rm -rf /home/pratap/tomcat/apache-tomcat-8.5.82
+RUN rm -rf /home/pratap/tomcat/apache-tomcat-8.5.82.tar.gz
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+
+WORKDIR /home/pratap/tomcat/webapps
+COPY shopieasy.war /home/pratap/tomcat/webapps
+
+RUN chown pratap:pratap -R /home/pratap/tomcat/
+RUN chmod 755 -R /home/pratap/tomcat/
+
+EXPOSE 8080
+
+USER pratap
+CMD ["/home/pratap/tomcat/bin/catalina.sh","run"]
