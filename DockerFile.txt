@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 MAINTAINER pratapdevops299@gmail.com
 
-   LABEL Trainer="pratap Rampathoti"
+LABEL Trainer="pratap Rampathoti"
 LABEL Cource="DevOps"
 
 USER root 
